@@ -1,0 +1,41 @@
+sudo: required
+services: 
+    - docker
+
+before_install:
+    - docker build -t sumeetchawladocker/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+    - docker run -e CI=true sumeetchawladocker/react-react npm run test -- --coverage
+
+    #taking images to docker hub
+after_install:
+    - docker build -t sumeetchawladocker/multi-client ./client
+    - docker build -t sumeetchawladocker/multi-nginx ./nginx
+    - docker build -t sumeetchawladocker/multi-server ./server
+    - docker build -t sumeetchawladocker/multi-worker ./worker
+
+
+    #Docker login using CLI and Travin Enviornment variables
+    - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+
+    #push images to docker hub
+    -docker push sumeetchawladocker/multi-client
+    -docker push sumeetchawladocker/multi-nginx
+    -docker push sumeetchawladocker/multi-server
+    -docker push sumeetchawladocker/multi-worker
+
+
+deploy:
+    edge: true
+    provider: elasticbeanstalk
+    region: "us-east-1"
+    app: "docker-react"
+    env: "DockerReact-env"
+    bucket_name: "elasticbeanstalk-us-east-1-629141305280"
+    bucket-path: "docker-react"
+    on:
+        branch: master
+    access_key_id: "$AWS_ACCESS_KEY"
+    secret_access_key: "$AWS_SECRET_KEY"
+    

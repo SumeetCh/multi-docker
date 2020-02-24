@@ -20,7 +20,7 @@ after_install:
     - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
 
     #push images to docker hub
-    -docker push sumeetchawladocker/multi-client
-    -docker push sumeetchawladocker/multi-nginx
-    -docker push sumeetchawladocker/multi-server
-    -docker push sumeetchawladocker/multi-worker
+    - docker push sumeetchawladocker/multi-client
+    - docker push sumeetchawladocker/multi-nginx
+    - docker push sumeetchawladocker/multi-server
+    - docker push sumeetchawladocker/multi-worker

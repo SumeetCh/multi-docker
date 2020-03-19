@@ -17,7 +17,7 @@ after_success:
 
 
     #Docker login using CLI and Travin Enviornment variables
-    - echo "$DOCKER_PASSWORD" | docker login -u "DOCKER_ID" --password-stdin
+    - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_ID" --password-stdin
 
     #push images to docker hub
     - docker push sumeetchawladocker/multi-client

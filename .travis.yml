@@ -9,7 +9,7 @@ script:
     - docker run -e CI=true sumeetchawladocker/react-test npm run test -- --coverage
 
     #taking images to docker hub
-after_install:
+after_success:
     - docker build -t sumeetchawladocker/multi-client ./client
     - docker build -t sumeetchawladocker/multi-nginx ./nginx
     - docker build -t sumeetchawladocker/multi-server ./server
